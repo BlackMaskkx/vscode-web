@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VS Code Web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.0/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.0/ext-language_tools.js"></script>
+</head>
+<body>
+    <div class="ide-container">
+        <!-- Activity Bar -->
+        <div class="activity-bar">
+            <div class="activity-item active" data-view="explorer">
+                <i class="fas fa-folder"></i>
+            </div>
+            <div class="activity-item" data-view="search">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="activity-item" data-view="git">
+                <i class="fas fa-code-branch"></i>
+            </div>
+            <div class="activity-item" data-view="extensions">
+                <i class="fas fa-puzzle-piece"></i>
+            </div>
+            <div class="activity-item" data-view="profile">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-content" id="explorer-view">
+                <div class="sidebar-header">
+                    <span>EXPLORADOR</span>
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <div class="file-explorer">
+                    <div class="workspace-name">WORKSPACE</div>
+                    <div id="file-tree" class="tree-view"></div>
+                </div>
+            </div>
+
+            <div class="sidebar-content hidden" id="extensions-view">
+                <div class="sidebar-header">
+                    <span>EXTENSIONES</span>
+                </div>
+                <div class="extensions-container">
+                    <div class="search-extensions">
+                        <input type="text" placeholder="Buscar extensiones...">
+                    </div>
+                    <div class="extensions-list" id="extensions-list"></div>
+                </div>
+            </div>
+
+            <div class="sidebar-content hidden" id="profile-view">
+                <div class="sidebar-header">
+                    <span>PERFIL</span>
+                </div>
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="profile-name">Usuario</div>
+                    </div>
+                    <div class="profile-settings">
+                        <div class="settings-item">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Tema</span>
+                            <select id="theme-selector">
+                                <option value="dark">Oscuro</option>
+                                <option value="light">Claro</option>
+                                <option value="solarized">Solarized</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <i class="fas fa-code"></i>
+                            <span>Lenguaje preferido</span>
+                            <select id="language-selector">
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="go">Go</option>
+                                <option value="php">PHP</option>
+                                <option value="ruby">Ruby</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor Area -->
+        <div class="editor-area">
+            <div class="tab-bar">
+                <div class="tabs-container" id="editor-tabs"></div>
+                <div class="tab-actions">
+                    <button id="split-editor"><i class="fas fa-columns"></i></button>
+                </div>
+            </div>
+            <div class="editor-container">
+                <div id="code-editor" class="code-editor"></div>
+                <div class="terminal-container">
+                    <div class="terminal-toolbar">
+                        <span>TERMINAL</span>
+                        <div class="terminal-actions">
+                            <button id="clear-terminal"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                    <div id="terminal-output" class="terminal-output"></div>
+                    <div class="terminal-input">
+                        <span>></span>
+                        <input type="text" id="terminal-command" placeholder="Escribe un comando...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-item">
+                <i class="fas fa-code-branch"></i>
+                <span>main</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Preparado</span>
+            </div>
+            <div class="status-item">
+                <span id="cursor-position">Ln 1, Col 1</span>
+            </div>
+            <div class="status-item">
+                <span id="indentation">Espacios: 4</span>
+            </div>
+            <div class="status-item">
+                <span id="encoding">UTF-8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Extension Details Modal -->
+    <div class="modal" id="extension-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="extension-modal-title"></h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="extension-info">
+                    <div class="extension-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div class="extension-details">
+                        <div class="extension-author" id="extension-author"></div>
+                        <div class="extension-version" id="extension-version"></div>
+                        <div class="extension-desc" id="extension-desc"></div>
+                    </div>
+                </div>
+                <div class="extension-screenshots"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="install-extension">Instalar</button>
+                <button class="btn btn-secondary close-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+  </html>
