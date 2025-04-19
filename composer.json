@@ -1,0 +1,13 @@
+{
+  "name": "vscode-web/php-support",
+  "description": "PHP support for VS Code Web",
+  "require": {
+    "php": "^8.0",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "VSCodeWeb\\": "src/"
+    }
+  }
+}
